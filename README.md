@@ -1,2 +1,2 @@
-# videos
-Since when I was a child, I loved watching YouTube videos and creating some of them. Yes, I was one of those kids who made minecraft videos when I was a kid. My love for the internet, videogames, mathematics across the years, of course that path lead me to study computer science in the future. I decided to follow my oldest passion for video creation once again, and opened a YouTube channel about computer science, where I want to approach topics of my studies and views of my own craft. I am excited to be contributing to the brazillian tech community!  
+# Vídeos
+Eu faço vídeos sobre ciência da computação para o YouTube, e aqui estão as animações que eu utilizo neles! :) 
