@@ -23,3 +23,36 @@ class Thumbnail(Scene):
        
        self.add(title, venn_group)
 
+class Introduction(Scene):
+    def construct(self):
+        text = Text("O que seria um JOIN em SQL?")
+        self.play(Write(text))
+        self.play(text.animate.shift(UP*3))
+        
+        
+        # Desenha as tabelas User e Country
+        userTable = Rectangle(color=BLUE, fill_opacity=0)
+        userTableLabel = Text("Usuário")
+        userTableLabel.move_to(userTable)
+        
+        countryTable = Rectangle(color=RED, fill_opacity=0)
+        countryTableLabel = Text("País")
+        
+        countryTable.move_to(RIGHT * 2.5)
+        countryTableLabel.move_to(RIGHT * 2.5)
+        
+        self.play(DrawBorderThenFill(userTable))
+        self.play(Write(userTableLabel))
+        self.play(userTable.animate.shift(LEFT * 2.5), userTableLabel.animate.shift(LEFT * 2.5))
+        
+        self.play(DrawBorderThenFill(countryTable))
+        self.play(Write(countryTableLabel))
+        
+        # Desenha as tabelas se transformando em conjuntos
+        
+        
+        self.wait(3)
+        
+        
+       
+        
