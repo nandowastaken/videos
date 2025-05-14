@@ -1,4 +1,5 @@
 from manim import *
+from components import *
 
 class Thumbnail(Scene):
     def construct(self):
@@ -20,6 +21,7 @@ class Thumbnail(Scene):
        venn_group = VGroup(tableA, tableB, un, labelA, labelB, labelAB).scale(0.8)
        
        self.add(title, venn_group)
+    
 
 class Introduction(Scene):
     def construct(self):
@@ -28,36 +30,59 @@ class Introduction(Scene):
         self.play(text.animate.shift(UP*3))
         
         # Desenha as tabelas User e Country
-        user = Rectangle(color=BLUE, fill_opacity=0)
-        userLabel = Text("Usuário").move_to(user)
+        userTable = createTable("Usuário", BLUE, ["- id", "- nome", "- código_país (FK)"])
+        self.play(DrawBorderThenFill(userTable))
         
-        country = Rectangle(color=RED, fill_opacity=0)
-        countryLabel = Text("País").move_to(country)
+        self.play(userTable.animate.shift(LEFT * 3))
         
-        country.move_to(RIGHT * 2.5)
-        countryLabel.move_to(RIGHT * 2.5)
+        countryTable = createTable("País", RED, ["- código", "- nome"]).move_to(RIGHT * 3)
+        self.play(DrawBorderThenFill(countryTable))
         
-        self.play(DrawBorderThenFill(user))
-        self.play(Write(userLabel))
-        self.play(user.animate.shift(LEFT * 2.5), userLabel.animate.shift(LEFT * 2.5))
+        self.wait(3)
         
-        self.play(DrawBorderThenFill(country))
-        self.play(Write(countryLabel))
-        self.wait(2)
+        # Demonstra relacionamento entre as tabelas
+        
+        
+        # Transforma as tabelas em sets
+        userSet = createSet("Usuário", 2, BLUE).move_to(userTable)
+        countrySet = createSet("País", 2, RED).move_to(countryTable)
+        
+        self.play(
+            Transform(userTable, userSet),
+            Transform(countryTable, countrySet),
+        )
+        
+        
+        # user = Rectangle(color=BLUE, fill_opacity=0)
+        # userLabel = Text("Usuário").scale(0.5).move_to(user.get_corner(UL) + RIGHT * .7 + DOWN * .3)
+        
+        # country = Rectangle(color=RED, fill_opacity=0)
+        # countryLabel = Text("País").move_to(country)
+        
+        # country.move_to(RIGHT * 2.5)
+        # countryLabel.move_to(RIGHT * 2.5)
+        
+        # self.play(DrawBorderThenFill(user))
+        # self.play(Write(userLabel))
+        # self.play(user.animate.shift(LEFT * 2.5), userLabel.animate.shift(LEFT * 2.5))
+        
+        # self.play(DrawBorderThenFill(country))
+        # self.play(Write(countryLabel))
+        # self.wait(2)
         
         # Desenha as tabelas se transformando em conjuntos
-        self.play(
-            Transform(user, Circle(radius=2, color=BLUE, fill_opacity=0).move_to(user)),
-            Transform(country, Circle(radius=2, color=RED, fill_opacity=0).move_to(country))
-        )
-        self.play(
-            user.animate.shift(RIGHT * .8), 
-            userLabel.animate.shift(RIGHT * 1),
-            country.animate.shift(LEFT * .8),
-            countryLabel.animate.shift(LEFT * 1),
-        )
+        # self.play(
+        #     Transform(user, Circle(radius=2, color=BLUE, fill_opacity=0).move_to(user)),
+        #     Transform(country, Circle(radius=2, color=RED, fill_opacity=0).move_to(country))
+        # )
+        # self.play(
+        #     user.animate.shift(RIGHT * .8), 
+        #     userLabel.animate.shift(RIGHT * 1),
+        #     country.animate.shift(LEFT * .8),
+        #     countryLabel.animate.shift(LEFT * 1),
+        # )
         
-        intersection = Intersection(user, country, color=PURPLE, fill_opacity=0.5)
-        self.play(FadeIn(intersection))
+        # intersection = Intersection(user, country, color=PURPLE, fill_opacity=0.5)
+        # self.play(FadeIn(intersection))
         
-        self.wait(3) 
+        # self.wait(3) 
