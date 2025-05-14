@@ -41,9 +41,25 @@ class Introduction(Scene):
         self.wait(3)
         
         # Demonstra relacionamento entre as tabelas
+        user_field = userTable[0][0]  
+        country_field = countryTable[0][0]
+        line = Line(
+            start=user_field.get_right(),
+            end=country_field.get_left(),
+            color=YELLOW,
+            stroke_width=3
+        )
+        n_text = Text("N").scale(0.5).next_to(line.get_start(), UP + RIGHT, buff=0.15)
+        one_text = Text("1").scale(0.5).next_to(line.get_end(), UP + LEFT, buff=0.15)
+
+        self.play(Create(line))
+        self.play(FadeIn(n_text), FadeIn(one_text))
         
+        self.wait(5)
         
         # Transforma as tabelas em sets
+        self.play(FadeOut(n_text), FadeOut(one_text), FadeOut(line))
+        
         userSet = createSet("Usuário", 2, BLUE).move_to(userTable)
         countrySet = createSet("País", 2, RED).move_to(countryTable)
         
