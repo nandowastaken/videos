@@ -18,4 +18,4 @@ def createTable(tableName, tableColor, columns):
 def createSet(setName, setRadius, setColor): 
     set = Circle(radius=setRadius, color=setColor, fill_opacity=0)
     setName = Text(setName).move_to(set)
-    return VGroup(set, setName)
+    return VGroup(set, setName), set

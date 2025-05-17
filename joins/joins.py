@@ -57,48 +57,87 @@ class Introduction(Scene):
         
         self.wait(5)
         
+        # Mostra como selecionar todos os usuários
+        select_user = Text("SELECT * FROM Usuario;").scale(.8)
+        select_user.move_to(ORIGIN)
+        select_user.move_to(DOWN * 2.25)
+        
+        self.play(Write(select_user))
+        self.wait(3)
+        
+        doubt = Text("???").scale(.8)
+        doubt.move_to(ORIGIN)
+        doubt.move_to(DOWN * 2.5)
+        
+        self.play(Transform(select_user, doubt))
+        self.wait(2)
+        
+        join = Text(
+            "SELECT * FROM Usuario INNER JOIN Pais ON Usuario.codigo_pais = Pais.codigo;",
+            t2c={"INNER": YELLOW, "JOIN": YELLOW, "ON": YELLOW}
+        ).scale(0.5)
+        join.move_to(ORIGIN)
+        join.move_to(DOWN * 2.5)
+        
+        self.play(Transform(select_user, join))
+        self.wait(5)
+        
         # Transforma as tabelas em sets
         self.play(FadeOut(n_text), FadeOut(one_text), FadeOut(line))
         
-        userSet = createSet("Usuário", 2, BLUE).move_to(userTable)
-        countrySet = createSet("País", 2, RED).move_to(countryTable)
+        userSet, userCircle = createSet("Usuário", 2, BLUE)
+        userSet.move_to(userTable)
+        
+        countrySet, countryCircle = createSet("País", 2, RED)
+        countrySet.move_to(countryTable)
         
         self.play(
             Transform(userTable, userSet),
             Transform(countryTable, countrySet),
         )
         
+        self.wait(5)
         
-        # user = Rectangle(color=BLUE, fill_opacity=0)
-        # userLabel = Text("Usuário").scale(0.5).move_to(user.get_corner(UL) + RIGHT * .7 + DOWN * .3)
+        self.play(
+            userTable.animate.shift(RIGHT * 1.25),
+            countryTable.animate.shift(LEFT * 1.25),
+            userSet.animate.shift(RIGHT * 1.25),
+            countrySet.animate.shift(LEFT * 1.25)
+        )
         
-        # country = Rectangle(color=RED, fill_opacity=0)
-        # countryLabel = Text("País").move_to(country)
+        intersection = Intersection(userCircle, countryCircle, color=PURPLE, fill_opacity=.5)
+        self.play(FadeIn(intersection))
         
-        # country.move_to(RIGHT * 2.5)
-        # countryLabel.move_to(RIGHT * 2.5)
+        self.wait(5)
         
-        # self.play(DrawBorderThenFill(user))
-        # self.play(Write(userLabel))
-        # self.play(user.animate.shift(LEFT * 2.5), userLabel.animate.shift(LEFT * 2.5))
+        left_join = Text("SELECT * FROM Usuario LEFT JOIN Pais ON Usuario.codigo_pais = Pais.codigo;",
+                         t2c={"LEFT": YELLOW, "JOIN": YELLOW, "ON": YELLOW}).scale(.5)
+        left_join.move_to(ORIGIN)
+        left_join.move_to(DOWN * 2.5)
         
-        # self.play(DrawBorderThenFill(country))
-        # self.play(Write(countryLabel))
-        # self.wait(2)
+        self.remove(intersection)
+        self.play(Transform(select_user, left_join), 
+                  userCircle.animate.set_fill(color=PURPLE, opacity=.5)
+                  )
+        self.wait(3)
         
-        # Desenha as tabelas se transformando em conjuntos
-        # self.play(
-        #     Transform(user, Circle(radius=2, color=BLUE, fill_opacity=0).move_to(user)),
-        #     Transform(country, Circle(radius=2, color=RED, fill_opacity=0).move_to(country))
-        # )
-        # self.play(
-        #     user.animate.shift(RIGHT * .8), 
-        #     userLabel.animate.shift(RIGHT * 1),
-        #     country.animate.shift(LEFT * .8),
-        #     countryLabel.animate.shift(LEFT * 1),
-        # )
+        right_join = Text("SELECT * FROM Usuario RIGHT JOIN Pais On Usuario.codigo_pais = Pais.codigo;",
+                          t2c={"RIGHT": YELLOW, "JOIN": YELLOW, "ON": YELLOW}).scale(.5)
+        right_join.move_to(ORIGIN)
+        right_join.move_to(DOWN * 2.5)
         
-        # intersection = Intersection(user, country, color=PURPLE, fill_opacity=0.5)
-        # self.play(FadeIn(intersection))
+        self.play(Transform(select_user, right_join),
+                  userCircle.animate.set_fill(opacity=0),
+                  countryCircle.animate.set_fill(color=PURPLE, opacity=.5)
+                  )
+        self.wait(3)
         
-        # self.wait(3) 
+        full_outer_join = Text("SELECT * FROM USUARIO FULL OUTER JOIN Pais On Usuario.codigo_pais = Pais.codigo;",
+                               t2c={"FULL": YELLOW, "OUTER": YELLOW, "JOIN": YELLOW, "ON": YELLOW}).scale(.5)
+        full_outer_join.move_to(ORIGIN)
+        full_outer_join.move_to(DOWN * 2.5)
+        
+        self.play(Transform(select_user, full_outer_join),
+                  userCircle.animate.set_fill(opacity=.5)
+                  )
+        self.wait(5)
